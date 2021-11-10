@@ -1,8 +1,5 @@
 package Task4;
 
-import Task3.Rating_Task3;
-import Task3.Subject_Task3;
-
 import java.util.Map;
 
 public class Student {
