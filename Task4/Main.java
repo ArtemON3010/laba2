@@ -22,12 +22,12 @@ public class Main {
         hashMap1.put(math, rating2);
         hashMap1.put(physics, rating3);
 
-        hashMap2.put(english, rating1);
+        hashMap2.put(english, rating3);
         hashMap2.put(math, rating2);
-        hashMap2.put(physics, rating3);
+        hashMap2.put(physics, rating1);
 
-        hashMap3.put(english, rating1);
-        hashMap3.put(math, rating2);
+        hashMap3.put(english, rating2);
+        hashMap3.put(math, rating1);
         hashMap3.put(physics, rating3);
 
         final Student student1 = new Student(19,"Артем", "IT-21", "ІКНІ",1,hashMap1);
