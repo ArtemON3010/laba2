@@ -1,17 +1,16 @@
-package Task4;
+package Task3;
 
-public class Subject {
-
+public class Subject_Task3 {
     private String name;
     private int amount_per_week;
 
     //Constructors
-    public Subject(final String name, final int amount_per_week){
+    public Subject_Task3(final String name, final int amount_per_week){
         this.name = name;
         this.amount_per_week = amount_per_week;
     }
 
-    public Subject(final String name){
+    public Subject_Task3(final String name){
         this.name = name;
     }
 

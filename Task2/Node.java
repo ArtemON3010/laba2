@@ -1,18 +1,35 @@
 package Task2;
 
 public class Node {
-    public Node next;
-    public int data;
+    private int data;
+    private Node next;
 
-    public Node(final Node next, final int data) {
-        this.next = next;
-        this.data = data;
+    //Constructors
+    public Node(final int d, final Node nx){
+        this.data = d;
+        this.next = nx;
     }
 
+    public Node() {
+    }
+
+    //Getters
     public int getData() {
         return data;
     }
+
     public Node getNext() {
         return next;
     }
+
+    //Setters
+    public void setData(final int data) {
+        this.data = data;
+    }
+
+    public void setNext(final Node next) {
+        this.next = next;
+    }
+
+
 }

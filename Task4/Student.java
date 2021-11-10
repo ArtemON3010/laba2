@@ -1,115 +1,88 @@
 package Task4;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+
+import Task3.Rating_Task3;
+import Task3.Subject_Task3;
+
 import java.util.Map;
 
 public class Student {
-    private final int UID;
+    private int age;
     private String name;
-    private List<Subject> subjects;
-    private List<Student> students;
-    private double averageMark;
+    private String group;
+    private String institute;
+    private Map<Subject, Rating> ratingMap;
+    private long UID;
 
-    public Student(final String name, final List<Subject> subjects, final int UID) {
+    //Constructor
+    public Student(final int age, final String name, final String group, final String institute, final long UID,
+                   final Map<Subject, Rating> hashMap ){
+        this.age = age;
         this.name = name;
-        this.subjects = subjects;
+        this.group = group;
+        this.institute = institute;
         this.UID = UID;
-        getAverageMark();
+        this.ratingMap = hashMap;
     }
 
-    public int getUID() {
-        return UID;
-    }
+    //Setters
 
-    public String getName() {
-        return name;
+    public void setAge(final int age) {
+        this.age = age;
     }
 
     public void setName(final String name) {
         this.name = name;
     }
 
-    //Here we're adding new subject to arrayList
-    public boolean addSubject(final Subject subject) {
-        if (subject == null) {
-            return false;
-        }
-        if (subjects.contains(subject)) {
-            return false;
-        }
-        subjects.add(subject);
-        //getAverageMark();
-        return true;
+    public void setGroup(final String group) {
+        this.group = group;
     }
 
-    //Here we remove subject by searching its name using for-each cycle
-    public boolean removeSubject(final String name) {
-        if (name == null) {
-            return false;
-        }
-        for (final Subject s : subjects) {
-            if (s.getName().equals(name)) {
-                subjects.remove(s);
-                getAverageMark();
-                return true;
-            }
-        }
-        return false;
+    public void setInstitute(final String institute) {
+        this.institute = institute;
     }
 
-    //Here we're getting subject mark by searching its name using for-each cycle.
-    //If you enter a null subjectName,so method catch IllegalArgumentException
-    public Double getSubjectMark(final String subjName) throws IllegalArgumentException {
-        if (subjName == null) {
-            throw new IllegalArgumentException("It must be a name here!");
-        }
-        for (final Subject s : subjects) {
-            if (s.getName().equals(subjName)) {
-                return s.getMark();
-            }
-        }
-        return null;
+
+    public void setUID(final long UID) {
+        this.UID = UID;
     }
 
-    //The same think,but it's setting subject mark,but we're also resetting subject mark
-    public boolean setSubjectMark(final String subjName, final double mark) {
-        if (subjName == null) {
-            return false;
-        }
-        for (final Subject s : subjects) {
-            if (s.getName().equals(subjName)) {
-                s.setMark(mark);
-                getAverageMark();
-                return true;
-            }
-        }
-        return false;
+    public void setRatingMap(final Map<Subject, Rating> ratingMap) {
+        this.ratingMap = ratingMap;
     }
 
-    //Here,we're getting average mark by doing simple math operations,and using for-each cycle as well.
-    public Double getAverageMark() {
-        double markSum = 0;
 
-        for (final Subject s : subjects) {
-            markSum += s.getMark();
-        }
-        averageMark = markSum / subjects.size();
+    //Getters
 
-        return averageMark;
+    public int getAge() {
+        return age;
     }
 
-    //Here,we're overriding method toString to display all data we need
+    public String getName() {
+        return name;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public String getInstitute() {
+        return institute;
+    }
+
+    public long getUID() {
+        return UID;
+    }
+
+    public Map<Subject, Rating> getRatingMap() {
+        return ratingMap;
+    }
+
     @Override
     public String toString() {
-        final StringBuilder result = new StringBuilder();
-
-        result.append(name).append(" : ").append("Average grade : ").append(averageMark).append(System.lineSeparator())
-                .append(" Subject grades : ").append(System.lineSeparator());
-        for (final Subject s : subjects) {
-            result.append(s.getName()).append(" : ").append(s.getMark()).append(System.lineSeparator());
-        }
-
-        return result.toString();
+        return "Студент " + getName() + " віком "+ getAge() + " вчиться в групі " + getGroup() + " інституту "
+                + getInstitute() + ".Його унікальний ID: "
+                + getUID() + ".Його оцінка з предмету: " + getRatingMap();
     }
+
 }

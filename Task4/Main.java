@@ -1,86 +1,89 @@
 package Task4;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
-    private List<Student> students = new ArrayList<>();
-
     public static void main(final String[] args) {
-        final Main main = new Main();
-        final List<Subject> subjects0 = new ArrayList<>();
-        subjects0.add(new Subject("English", 90));
-        subjects0.add(new Subject("Maths", 74));
-        subjects0.add(new Subject("Physic", 51));
+        final List<Student> studentList = new ArrayList<>();
+        final Map<Subject, Rating> hashMap1 = new HashMap<>();
+        final Map<Subject, Rating> hashMap2 = new HashMap<>();
+        final Map<Subject, Rating> hashMap3 = new HashMap<>();
 
-        final List<Subject> subjects1 = new ArrayList<>();
-        subjects1.add(new Subject("English", 99));
-        subjects1.add(new Subject("Maths", 95));
-        subjects1.add(new Subject("Physic", 98));
+        final Subject english = new Subject("Англійська мова");
+        final Subject math = new Subject("Математика ");
+        final Subject physics = new Subject("Фізика ");
 
-        final Student Artem = new Student("Artem", subjects0, 1);
-        final Student Ivan = new Student("Ivan", subjects1, 2);
+        final Rating rating1 = new Rating(60);
+        final Rating rating2 = new Rating(80);
+        final Rating rating3 = new Rating(70);
 
-        main.students.add(Artem);
-        main.students.add(Ivan);
+        hashMap1.put(english, rating1);
+        hashMap1.put(math, rating2);
+        hashMap1.put(physics, rating3);
 
-        main.students.get(0).setSubjectMark("English", 99);
-        main.students.get(0).setSubjectMark("Maths", 98);
-        main.students.get(0).setSubjectMark("Physic", 97);
+        hashMap2.put(english, rating1);
+        hashMap2.put(math, rating2);
+        hashMap2.put(physics, rating3);
 
-        main.students.get(1).setSubjectMark("English", 51);
-        main.students.get(1).setSubjectMark("Maths", 60);
-        main.students.get(1).setSubjectMark("Physic", 80);
+        hashMap3.put(english, rating1);
+        hashMap3.put(math, rating2);
+        hashMap3.put(physics, rating3);
 
-        main.printAllStudents();
-        main.addSubjectToAll(new Subject("Programming"));
-        main.students.get(0).setSubjectMark("Programming", 70);
-        main.students.get(1).setSubjectMark("Programming", 55);
+        final Student student1 = new Student(19,"Артем", "IT-21", "ІКНІ",1,hashMap1);
+        final Student student2 = new Student(20,"Олег", "БД-41", "ІБІС",2,hashMap2);
+        final Student student3 = new Student(18,"Ян", "КБ-21", "ІКТА",3,hashMap3);
 
-        main.printAllStudents();
+        studentList.add(student1);
+        studentList.add(student2);
+        studentList.add(student3);
 
-        System.out.println("Highest average : " + main.findGreatestAverageMark());
-        System.out.println(main.formMap("Maths"));
+
+        final Subject circuitry = new Subject("Схемотехніка");
+
+        display(studentList);
+        addSubject(studentList, circuitry);
+        display(studentList);
+
+        System.out.println();
+        System.out.println("Середній бал студента: " + average(student1));
+
+        System.out.println("Оцінки студентів за ключем \" Анлійська мова \" :");
+        System.out.println(displayByKey(studentList,english));
+
+
+
     }
 
-    //Here,we're adding new subject using for-each cycle
-    private void addSubjectToAll(final Subject subject) {
-        for(final Student s : students) {
-            s.addSubject(new Subject(subject.getName(), subject.getMark()));
+    public static List<Student> addSubject(final List<Student> list, final Subject subject) {
+        for (final Student student : list) {
+            student.getRatingMap().put(subject,new Rating());
+        }
+
+        return list;
+    }
+
+    public static void display(final List<Student> list) {
+        for (final Student student : list) {
+            System.out.println();
+            System.out.println(student);
         }
     }
 
-    //Here,we're printing all students using for-each cycle
-    private void printAllStudents() {
-        for(final Student s : students) {
-            System.out.println(s);
-        }
+    public static double average(final Student student) {
+        return student.getRatingMap().values().stream()
+                .mapToInt(value -> value.getRating())
+                .average()
+                .getAsDouble();
     }
 
-    //Here,we're finding greatest average mark by comparing with first student average mark
-    private Student findGreatestAverageMark() {
-        Student result = students.get(0);
-
-        for (final Student s : students) {
-            if(s.getAverageMark() > result.getAverageMark()) {
-                result = s;
-            }
-        }
-        return result;
+    public static Map<Long, Rating> displayByKey(final List<Student> list, final Subject subject){
+        return list.stream()
+                .distinct()
+                .collect(Collectors.toMap(student -> student.getUID(),student -> student.getRatingMap().get(subject)));
     }
 
-    //We use this method to print all students who study certain subject and to present their UID+grade of this certain
-    // subject.If there are no students studying certain subject,so method catch IllegalArgumentException
-    private Map<Integer,Double> formMap(final String subjectName) {
-        final Map<Integer,Double> result = new HashMap<>();
-        try {
-            for (final Student s : students) {
-                result.put(s.getUID(), s.getSubjectMark(subjectName));
-            }
-        } catch (final IllegalArgumentException ex) {
-            ex.printStackTrace();
-        }
-        return result;
-    }
 }
+
+
+

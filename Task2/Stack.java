@@ -1,61 +1,56 @@
 package Task2;
+
 import java.util.Iterator;
 
-public class Stack implements Iterable<Node>{
-    private Node top;
+public class Stack implements Iterable<Integer> {
+    private Node head;
+    private int count = 0;
 
-    public Stack() {
-        this.top = null;
+    //This method counts number of elements in stack
+    public int getCount() {
+        return count;
     }
 
-    public void add(final int a) {
-        top = new Node(top, a);
+    //This method adds elements to stack
+    public void add(final int data){
+        this.head = new Node(data,head);
+        count++;
     }
 
-    public int delete()  {
-        int result = 0;
-        if (isEmpty()) {
-            System.out.println("Stack empty!");
-        } else {
-            result = top.data;
-            top = top.next;
-        }
-        return result;
+    //This method removes elements from stack
+    public int remove(){
+        final int data = head.getData();
+        head = head.getNext();
+        count--;
+
+        return data;
     }
 
-    public boolean isEmpty() {
-        return (this.top == null);
+    //Is stack empty?
+    public boolean isEmpty(){
+        return count == 0;
     }
 
+    //Making our stack be able to display elements using for-each(making iterable)
     @Override
-    public String toString() {
-        Node currentHead = top;
-        String result = "";
-        while (currentHead != null) {
-            result += currentHead.data + " ";
-            currentHead = currentHead.next;
-        }
-        return result;
+    public Iterator<Integer> iterator() {
+        return new MyIterator();
     }
 
-    class NodeIterator implements Iterator<Node> {
-        private Node current;
+    private class MyIterator implements Iterator<Integer> {
+        Node next = head;
 
+        @Override
         public boolean hasNext() {
-            if (current == null) {
-                current = top;
-            } else {
-                current = current.next;
-            }
-            return (current != null);
+            return next != null;
         }
 
-        public Node next() {
-            return current;
+        @Override
+        public Integer next(){
+            final int data = next.getData();
+            next = next.getNext();
+            return data;
         }
     }
 
-    public Iterator<Node> iterator() {
-        return new NodeIterator();
-    }
 }
